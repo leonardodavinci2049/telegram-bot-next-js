@@ -1,7 +1,10 @@
 import { z } from "zod";
 
-const envSchema = z.object({
+import { parseEnv } from "@/core/config/env-validation";
+
+const serverEnvsSchema = z.object({
   PORT: z.coerce.number().default(7777),
+  EXTERNAL_API_MAIN_URL: z.string().url(),
   WEBHOOK_LOCAL_PORT: z.coerce.number().default(7777),
   WEBHOOK_URL: z.string().url(),
   TELEGRAM_BOT_TOKEN: z.string().min(1),
@@ -10,14 +13,9 @@ const envSchema = z.object({
   TELEGRAM_MESSAGE_RESPONSE: z.string().min(1),
 });
 
-const parsed = envSchema.safeParse(process.env);
+export const serverEnvs = parseEnv(serverEnvsSchema, process.env, {
+  scope: "server",
+  sourceFiles: [".env.local"],
+});
 
-if (!parsed.success) {
-  console.error(
-    "[env] Invalid environment variables:",
-    parsed.error.flatten().fieldErrors,
-  );
-  process.exit(1);
-}
-
-export const env = parsed.data;
+export type ServerEnvs = z.infer<typeof serverEnvsSchema>;
