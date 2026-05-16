@@ -1,6 +1,5 @@
 import { handleUpdate } from "@/services/telegram/bot1/bot1-telegram";
 
-
 export async function POST(request: Request) {
   try {
     const body = await request.json();

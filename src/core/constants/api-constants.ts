@@ -4,13 +4,9 @@
 
 import { serverEnvs } from "../config/envs.server";
 
-
 // URL base da API Externa (Servidor NestJS) - apenas server-side
 // Esta é a URL do backend que fornece os dados via REST API
 export const EXTERNAL_API_BASE_URL = serverEnvs.EXTERNAL_API_MAIN_URL;
-
-
-
 
 // Endpoints de Produto Web
 export const PRODUCT_WEB_ENDPOINTS = {
@@ -18,10 +14,6 @@ export const PRODUCT_WEB_ENDPOINTS = {
   FIND: "/product/v2/product-web-find",
   SECTIONS: "/product/v2/product-web-sections",
 } as const;
-
-
-
-
 
 // Configurações de timeout (em milissegundos)
 export const API_TIMEOUTS = {
@@ -31,7 +23,6 @@ export const API_TIMEOUTS = {
   SERVER_LONG_RUNNING: 120000, // 120 segundos para operações longas (relatórios, exports)
   SERVER_UPLOAD: 180000, // 180 segundos para uploads grandes no servidor
 } as const;
-
 
 // Configurações padrão do sistema
 export const SYSTEM_CONFIG = {
