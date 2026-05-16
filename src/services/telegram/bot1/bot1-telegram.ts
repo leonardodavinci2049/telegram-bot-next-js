@@ -8,7 +8,9 @@ async function ensureBot(): Promise<Bot> {
   if (!bot) {
     const botConfig = await getTelegramBotDbConfig();
 
-    bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
+    bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN, {
+      client: { fetch },
+    });
 
     bot.on("message", async (ctx) => {
       try {
