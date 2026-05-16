@@ -1,4 +1,5 @@
 import type { Bot } from "grammy";
+import { downloadPhoto } from "../upload-file/photo-upload";
 
 export async function setupPhotoHandler(bot: Bot): Promise<void> {
   bot.on(":photo", async (ctx) => {
@@ -15,9 +16,17 @@ export async function setupPhotoHandler(bot: Bot): Promise<void> {
         `[telegram] Received photo from chat ${ctx.chat.id}: ${width}x${height}, File ID: ${fileId}`,
       );
 
-      await ctx.reply(
-        `Recebi sua foto! 📷\n\nResolução: ${width}x${height}\nTamanho: ${fileSize} bytes\nID do arquivo: ${fileId}`,
-      );
+      const result = await downloadPhoto(bot.token, fileId);
+
+      if (result) {
+        await ctx.reply(
+          `Recebi sua foto! 📷\n\nResolução: ${width}x${height}\nTamanho: ${fileSize} bytes\nID do arquivo: ${fileId}\nArquivo salvo: ${result.fileName}`,
+        );
+      } else {
+        await ctx.reply(
+          `Recebi sua foto! 📷\n\nResolução: ${width}x${height}\nTamanho: ${fileSize} bytes\nID do arquivo: ${fileId}\n⚠️ Não foi possível salvar o arquivo.`,
+        );
+      }
     } catch (error) {
       console.error(
         `[telegram] Failed to process photo from chat ${ctx.chat.id}:`,

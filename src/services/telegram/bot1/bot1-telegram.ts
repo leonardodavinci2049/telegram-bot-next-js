@@ -14,10 +14,10 @@ async function ensureBot(): Promise<Bot> {
     // Configura handlers de eventos
     await setupMessageHandler(bot, botConfig);
 
-      await setupPhotoHandler(bot);
-       await setupVoiceHandler(bot);
+    await setupPhotoHandler(bot);
+    await setupVoiceHandler(bot);
 
-/*     await setupReplyWithPhotoWebHandler(bot, botConfig, {
+    /*     await setupReplyWithPhotoWebHandler(bot, botConfig, {
       respondToAllTextMessages: true,
     }); */
 

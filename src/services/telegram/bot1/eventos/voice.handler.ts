@@ -1,4 +1,5 @@
 import type { Bot } from "grammy";
+import { downloadVoice } from "../upload-file/voice-upload";
 
 export async function setupVoiceHandler(bot: Bot): Promise<void> {
   bot.on(":voice", async (ctx) => {
@@ -12,9 +13,17 @@ export async function setupVoiceHandler(bot: Bot): Promise<void> {
         `[telegram] Received voice message from chat ${ctx.chat.id}: Duration ${duration}s, File ID: ${fileId}`,
       );
 
-      await ctx.reply(
-        `Recebi sua mensagem de voz! 🎤\n\nDuração: ${duration} segundos\nTipo: ${mimeType}\nID do arquivo: ${fileId}`,
-      );
+      const result = await downloadVoice(bot.token, fileId);
+
+      if (result) {
+        await ctx.reply(
+          `Recebi sua mensagem de voz! 🎤\n\nDuração: ${duration} segundos\nTipo: ${mimeType}\nID do arquivo: ${fileId}\nArquivo salvo: ${result.fileName}`,
+        );
+      } else {
+        await ctx.reply(
+          `Recebi sua mensagem de voz! 🎤\n\nDuração: ${duration} segundos\nTipo: ${mimeType}\nID do arquivo: ${fileId}\n⚠️ Não foi possível salvar o arquivo.`,
+        );
+      }
     } catch (error) {
       console.error(
         `[telegram] Failed to process voice message from chat ${ctx.chat.id}:`,
