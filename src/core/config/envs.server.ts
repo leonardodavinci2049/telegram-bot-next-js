@@ -13,6 +13,7 @@ const serverEnvsSchema = z.object({
   DATABASE_USER: z.string().min(1),
   DATABASE_PASSWORD: z.string().min(1),
   TELEGRAM_MESSAGE_RESPONSE: z.string().min(1),
+  API_KEY: z.string().min(1),
 });
 
 export const serverEnvs = parseEnv(serverEnvsSchema, process.env, {
