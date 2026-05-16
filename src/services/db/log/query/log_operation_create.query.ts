@@ -1,12 +1,12 @@
-import { envs } from "@/core/config";
+import { serverEnvs } from "@/core/config/envs.server";
 import type { LogOperationCreateDto } from "../dto/log_operation_create.dto";
 
 export function LogOperationCreateQuery(
   dataJsonDto: LogOperationCreateDto,
 ): string {
-  const PE_APP_ID = envs.APP_ID;
-  const PE_ORGANIZATION_ID = dataJsonDto.PE_ORGANIZATION_ID || "";
-  const PE_USER_ID = dataJsonDto.PE_USER_ID || "";
+  const PE_APP_ID = serverEnvs.APP_ID;
+  const PE_ORGANIZATION_ID = "";
+  const PE_USER_ID =  "AAA";
   const PE_MODULE_ID = dataJsonDto.PE_MODULE_ID || 0;
   const PE_RECORD_ID = dataJsonDto.PE_RECORD_ID || "";
   const PE_LOG = dataJsonDto.PE_LOG || "";

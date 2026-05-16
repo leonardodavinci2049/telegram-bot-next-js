@@ -1,12 +1,12 @@
 import { escape as mysqlEscape } from "mysql2";
 import { v4 as UuidV4 } from "uuid";
-import { envs } from "@/core/config";
+import { serverEnvs } from "@/core/config/envs.server";
 import type { PromoLinkCreateDto } from "../dto/promo_link_create.dto";
 
 export function PromoLinkCreateQuery(dataJsonDto: PromoLinkCreateDto): string {
   const PE_UUID = mysqlEscape(UuidV4());
-  const PE_CLIENT_ID = envs.CLIENT_ID;
-  const PE_APP_ID = dataJsonDto.PE_APP_ID ?? envs.APP_ID;
+  const PE_CLIENT_ID = serverEnvs.CLIENT_ID;
+  const PE_APP_ID = dataJsonDto.PE_APP_ID ?? serverEnvs.APP_ID;
   const PE_TYPE_ID = dataJsonDto.PE_TYPE_ID;
   const PE_LINK_NAME1 = mysqlEscape(dataJsonDto.PE_LINK_NAME1 ?? "");
   const PE_LINK_NAME2 = mysqlEscape(dataJsonDto.PE_LINK_NAME2 ?? "");

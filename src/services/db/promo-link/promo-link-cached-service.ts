@@ -1,7 +1,7 @@
 import "server-only";
 
 import { cacheLife, cacheTag } from "next/cache";
-import { envs } from "@/core/config";
+import { serverEnvs } from "@/core/config/envs.server";
 import { createLogger } from "@/core/logger";
 import { CACHE_TAGS } from "@/lib/cache-config";
 import promoLinkService from "./promo-link.service";
@@ -11,7 +11,7 @@ import type {
 } from "./types/promo-link.type";
 
 const logger = createLogger("PromoLinkCachedService");
-const clientId = String(envs.CLIENT_ID);
+const clientId = String(serverEnvs.CLIENT_ID);
 
 function getPromoLinkCacheTags(typeId?: number, appId?: number): string[] {
   const tags = [CACHE_TAGS.promoLinks, CACHE_TAGS.promoLinksByClient(clientId)];

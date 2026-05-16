@@ -4,6 +4,8 @@ import { parseEnv } from "@/core/config/env-validation";
 
 const serverEnvsSchema = z.object({
   PORT: z.coerce.number().default(7777),
+  APP_ID: z.string().min(1),
+  CLIENT_ID: z.string().min(1),
   EXTERNAL_API_MAIN_URL: z.string().url(),
   DATABASE_HOST: z.string().min(1),
   DATABASE_PORT: z.coerce.number().positive(),
