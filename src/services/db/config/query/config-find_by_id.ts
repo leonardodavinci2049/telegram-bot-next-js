@@ -17,7 +17,7 @@ export const CONFIG_FIND_BY_ID_SQL = `
     SHOPEE_AFFILIATE_SUBIDS,
     CREATEDAT,
     UPDATEDAT
-  FROM TblConfig
+  FROM tbl_config
   WHERE CONFIG_ID = ?
   LIMIT 1
 `;

@@ -12,11 +12,6 @@ const serverEnvsSchema = z.object({
   DATABASE_NAME: z.string().min(1),
   DATABASE_USER: z.string().min(1),
   DATABASE_PASSWORD: z.string().min(1),
-  WEBHOOK_LOCAL_PORT: z.coerce.number().default(7777),
-  WEBHOOK_URL: z.string().url(),
-  TELEGRAM_BOT_TOKEN: z.string().min(1),
-  TELEGRAM_BOT_LINK: z.string().url(),
-  TELEGRAM_API_URL: z.string().url(),
   TELEGRAM_MESSAGE_RESPONSE: z.string().min(1),
 });
 

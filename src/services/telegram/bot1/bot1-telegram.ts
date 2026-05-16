@@ -1,16 +1,19 @@
 import { Bot } from "grammy";
 import { serverEnvs } from "@/core/config/envs.server";
+import { getTelegramBotDbConfig } from "@/services/db/config/config-cached.service";
 
 let bot: Bot | null = null;
 
 async function ensureBot(): Promise<Bot> {
   if (!bot) {
-    bot = new Bot(serverEnvs.TELEGRAM_BOT_TOKEN);
+    const botConfig = await getTelegramBotDbConfig();
+
+    bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
 
     bot.on("message", async (ctx) => {
       try {
         await ctx.reply(serverEnvs.TELEGRAM_MESSAGE_RESPONSE);
-        console.log(`[telegram] Response sent to chat ${ctx.chat.id}`);
+        //console.log(`[telegram] Response sent to chat ${ctx.chat.id}`);
       } catch (error) {
         console.error(
           `[telegram] Failed to send response to chat ${ctx.chat.id}:`,
@@ -20,18 +23,19 @@ async function ensureBot(): Promise<Bot> {
     });
 
     await bot.init();
-    console.log(`[telegram] Bot initialized: @${bot.botInfo.username}`);
+   // console.log(`[telegram] Bot initialized: @${bot.botInfo.username}`);
   }
   return bot;
 }
 
 export async function registerWebhook(): Promise<void> {
   const b = await ensureBot();
-  const webhookUrl = `${serverEnvs.WEBHOOK_URL}/api/bot1-telegram/webhook`;
+  const botConfig = await getTelegramBotDbConfig();
+  const webhookUrl = `${botConfig.WEBHOOK_URL}/api/bot1-telegram/webhook`;
 
   try {
     await b.api.setWebhook(webhookUrl);
-    console.log(`[telegram] Webhook registered: ${webhookUrl}`);
+    // console.log(`[telegram] Webhook registered: ${webhookUrl}`);
   } catch (error) {
     console.error("[telegram] Failed to register webhook:", error);
     throw error;
