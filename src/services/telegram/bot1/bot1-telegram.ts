@@ -23,7 +23,7 @@ async function ensureBot(): Promise<Bot> {
     });
 
     await bot.init();
-   // console.log(`[telegram] Bot initialized: @${bot.botInfo.username}`);
+    // console.log(`[telegram] Bot initialized: @${bot.botInfo.username}`);
   }
   return bot;
 }

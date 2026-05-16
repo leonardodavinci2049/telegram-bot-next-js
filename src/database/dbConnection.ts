@@ -166,14 +166,14 @@ class DatabaseService {
     try {
       const pool = this.ensureConnection();
       const [results] = await pool.execute<T[]>(queryString, params);
- /*      logger.debug("selectExecute", {
+      /*      logger.debug("selectExecute", {
         durationMs: Math.round(performance.now() - start),
         rows: results.length,
       }); */
       return results;
     } catch (error) {
       const durationMs = Math.round(performance.now() - start);
-/*       logger.error("Falha em selectExecute", {
+      /*       logger.error("Falha em selectExecute", {
         durationMs,
         paramCount: params?.length ?? 0,
       }); */
