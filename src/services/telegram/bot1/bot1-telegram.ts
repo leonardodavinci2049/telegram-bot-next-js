@@ -1,4 +1,4 @@
-import { Bot } from "grammy";
+import { Bot } from "grammy/web";
 import { serverEnvs } from "@/core/config/envs.server";
 import { getTelegramBotDbConfig } from "@/services/db/config/config-cached.service";
 
@@ -8,9 +8,7 @@ async function ensureBot(): Promise<Bot> {
   if (!bot) {
     const botConfig = await getTelegramBotDbConfig();
 
-    bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN, {
-      client: { fetch },
-    });
+    bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
 
     bot.on("message", async (ctx) => {
       try {
