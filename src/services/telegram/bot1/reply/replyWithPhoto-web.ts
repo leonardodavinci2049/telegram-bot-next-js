@@ -1,4 +1,4 @@
-import { type Bot, InputFile } from "grammy";
+import type { Bot } from "grammy";
 import { HTML_FORMATTED_MESSAGE2 } from "../messages/constants-mensages";
 
 const IMAGE_WEB_URL = "https://picsum.photos/800/600";
@@ -6,14 +6,14 @@ const IMAGE_MESSAGE_COMMANDS = new Set(["/imagemweb", "imagemweb"]);
 
 const DEFAULT_TELEGRAM_USER_NAME = "usuario";
 
-type SetupMessageImageHandlerOptions = {
+type SetupReplyWithPhotoHandlerOptions = {
   respondToAllTextMessages?: boolean;
 };
 
-export async function setupMessageImageWebHandler(
+export async function setupReplyWithPhotoWebHandler(
   bot: Bot,
   botConfig: { TELEGRAM_BOT_CHATID: string | null },
-  options?: SetupMessageImageHandlerOptions,
+  options?: SetupReplyWithPhotoHandlerOptions,
 ): Promise<void> {
   bot.on("message", async (ctx, next) => {
     try {
@@ -47,8 +47,14 @@ export async function setupMessageImageWebHandler(
         await ctx.reply("Sinto muito, mas eu so falo com o meu mestre");
         return;
       }
+      // Para imagem publica na web, prefira URL direta.
+      // Use InputFile quando a origem for arquivo local, buffer ou stream.
+      // await ctx.replyWithPhoto(new InputFile(new URL(IMAGE_WEB_URL)), {
+      //   caption: HTML_FORMATTED_MESSAGE2,
+      //   parse_mode: "HTML",
+      // });
 
-      await ctx.replyWithPhoto(new InputFile(new URL(IMAGE_WEB_URL)), {
+      await ctx.replyWithPhoto(IMAGE_WEB_URL, {
         caption: HTML_FORMATTED_MESSAGE2,
         parse_mode: "HTML",
       });

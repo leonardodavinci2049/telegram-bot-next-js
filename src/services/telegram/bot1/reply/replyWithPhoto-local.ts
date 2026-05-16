@@ -13,14 +13,14 @@ const IMAGE_MESSAGE_COMMANDS = new Set(["/imagem", "imagem"]);
 
 const DEFAULT_TELEGRAM_USER_NAME = "usuario";
 
-type SetupMessageImageHandlerOptions = {
+type SetupReplyWithPhotoHandlerOptions = {
   respondToAllTextMessages?: boolean;
 };
 
-export async function setupMessageImageLocalHandler(
+export async function setupReplyWithPhotoLocalHandler(
   bot: Bot,
   botConfig: { TELEGRAM_BOT_CHATID: string | null },
-  options?: SetupMessageImageHandlerOptions,
+  options?: SetupReplyWithPhotoHandlerOptions,
 ): Promise<void> {
   bot.on("message", async (ctx, next) => {
     try {
@@ -60,6 +60,7 @@ export async function setupMessageImageLocalHandler(
         caption: HTML_FORMATTED_MESSAGE2,
         parse_mode: "HTML",
       });
+
       //console.log(`[telegram] Response sent to chat ${ctx.chat.id}`);
       /* 
       await ctx.reply(
