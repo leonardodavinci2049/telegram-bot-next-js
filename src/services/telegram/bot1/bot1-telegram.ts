@@ -1,8 +1,8 @@
 import { Bot } from "grammy/web";
-import { serverEnvs } from "@/core/config/envs.server";
 import { getTelegramBotDbConfig } from "@/services/db/config/config-cached.service";
 
 let bot: Bot | null = null;
+const DEFAULT_TELEGRAM_USER_NAME = "usuario";
 
 async function ensureBot(): Promise<Bot> {
   if (!bot) {
@@ -10,10 +10,29 @@ async function ensureBot(): Promise<Bot> {
 
     bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
 
+    bot.on("message", async (ctx, next) => {
+      try {
+        const userFirstName =
+          ctx.from?.first_name ?? DEFAULT_TELEGRAM_USER_NAME;
+
+        //  await ctx.reply(serverEnvs.TELEGRAM_MESSAGE_RESPONSE);
+        //console.log(`[telegram] Response sent to chat ${ctx.chat.id}`);
+
+        await ctx.reply(
+          `seja bem ${userFirstName}, em breve teremos novidades, fique atento! 🚀`,
+        );
+        await next();
+      } catch (error) {
+        console.error(
+          `[telegram] Failed to send response to chat ${ctx.chat.id}:`,
+          error,
+        );
+      }
+    });
+
     bot.on("message", async (ctx) => {
       try {
-        await ctx.reply(serverEnvs.TELEGRAM_MESSAGE_RESPONSE);
-        //console.log(`[telegram] Response sent to chat ${ctx.chat.id}`);
+        await ctx.reply("Olá, meu nome é oferta viva bot 🚀");
       } catch (error) {
         console.error(
           `[telegram] Failed to send response to chat ${ctx.chat.id}:`,
