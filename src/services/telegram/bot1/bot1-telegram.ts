@@ -12,6 +12,12 @@ async function ensureBot(): Promise<Bot> {
 
     bot.on("message", async (ctx, next) => {
       try {
+        // Se não for mensagem de texto, passa para o próximo handler
+        if (!ctx.message.text) {
+          await next();
+          return;
+        }
+
         const configuredChatId = botConfig.TELEGRAM_BOT_CHATID;
         const currentChatId = String(ctx.chat?.id ?? "");
         const userFirstName =
