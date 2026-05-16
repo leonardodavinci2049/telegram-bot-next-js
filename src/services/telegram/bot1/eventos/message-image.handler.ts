@@ -1,8 +1,13 @@
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { type Bot, InputFile } from "grammy";
 import { HTML_FORMATTED_MESSAGE2 } from "../messages/constants-mensages";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_USER_IMAGE = new InputFile(
-  new URL("../images/default-user-image.jpeg", import.meta.url),
+  readFileSync(join(__dirname, "../images/default-user-image.jpeg")),
+  "default-user-image.jpeg",
 );
 const IMAGE_MESSAGE_COMMANDS = new Set(["/imagem", "imagem"]);
 

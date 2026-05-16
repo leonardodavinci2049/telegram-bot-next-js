@@ -1,9 +1,6 @@
-import { Bot } from "grammy/web";
+import { Bot } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/config/config-cached.service";
-import {
-  setupMessageHandler,
-  setupMessageImageHandler
-} from "./eventos";
+import { setupMessageHandler, setupMessageImageHandler } from "./eventos";
 
 let bot: Bot | null = null;
 
