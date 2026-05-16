@@ -12,8 +12,20 @@ async function ensureBot(): Promise<Bot> {
 
     bot.on("message", async (ctx, next) => {
       try {
+        const configuredChatId = botConfig.TELEGRAM_BOT_CHATID;
+        const currentChatId = String(ctx.chat?.id ?? "");
         const userFirstName =
           ctx.from?.first_name ?? DEFAULT_TELEGRAM_USER_NAME;
+        const userId = ctx.from?.id ?? "unknown";
+
+        console.log(
+          `[telegram] Received message from ${userFirstName} (ID: ${userId}): ${ctx.message.text}`,
+        );
+
+        if (!configuredChatId || currentChatId !== configuredChatId) {
+          await ctx.reply("Sinto muito, mas eu so falo com o meu mestre");
+          return;
+        }
 
         //  await ctx.reply(serverEnvs.TELEGRAM_MESSAGE_RESPONSE);
         //console.log(`[telegram] Response sent to chat ${ctx.chat.id}`);
@@ -30,12 +42,22 @@ async function ensureBot(): Promise<Bot> {
       }
     });
 
-    bot.on("message", async (ctx) => {
+    bot.on(":location", async (ctx) => {
       try {
-        await ctx.reply("Olá, meu nome é oferta viva bot 🚀");
+        const location = ctx.msg.location;
+        const latitude = location.latitude;
+        const longitude = location.longitude;
+
+        console.log(
+          `[telegram] Received location from chat ${ctx.chat.id}: ${latitude}, ${longitude}`,
+        );
+
+        await ctx.reply(
+          `Recebi sua localização! 📍\nLatitude: ${latitude}\nLongitude: ${longitude}`,
+        );
       } catch (error) {
         console.error(
-          `[telegram] Failed to send response to chat ${ctx.chat.id}:`,
+          `[telegram] Failed to process location from chat ${ctx.chat.id}:`,
           error,
         );
       }
