@@ -27,7 +27,7 @@ async function ensureBot(): Promise<Bot> {
 
 export async function registerWebhook(): Promise<void> {
   const b = await ensureBot();
-  const webhookUrl = `${serverEnvs.WEBHOOK_URL}api/bot1-telegram/webhook`;
+  const webhookUrl = `${serverEnvs.WEBHOOK_URL}/api/bot1-telegram/webhook`;
 
   try {
     await b.api.setWebhook(webhookUrl);

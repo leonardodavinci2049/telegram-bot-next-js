@@ -4,9 +4,9 @@ import type { LogLoginCreateDto } from "../dto/log_login_create.dto";
 export function LogLoginCreateQuery(dataJsonDto: LogLoginCreateDto): string {
   const PE_APP_ID = serverEnvs.APP_ID;
   const PE_ORGANIZATION_ID = "";
-  const PE_USER_ID =  "AAA";
+  const PE_USER_ID = "AAA";
   const PE_MODULE_ID = 1;
-  const PE_RECORD_ID = 1;;
+  const PE_RECORD_ID = 1;
   const PE_LOG = dataJsonDto.PE_LOG || "";
   const PE_NOTE = dataJsonDto.PE_NOTE || "";
 

@@ -6,7 +6,7 @@ export function LogOperationCreateQuery(
 ): string {
   const PE_APP_ID = serverEnvs.APP_ID;
   const PE_ORGANIZATION_ID = "";
-  const PE_USER_ID =  "AAA";
+  const PE_USER_ID = "AAA";
   const PE_MODULE_ID = dataJsonDto.PE_MODULE_ID || 0;
   const PE_RECORD_ID = dataJsonDto.PE_RECORD_ID || "";
   const PE_LOG = dataJsonDto.PE_LOG || "";
