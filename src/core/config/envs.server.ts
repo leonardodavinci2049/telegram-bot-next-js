@@ -5,6 +5,11 @@ import { parseEnv } from "@/core/config/env-validation";
 const serverEnvsSchema = z.object({
   PORT: z.coerce.number().default(7777),
   EXTERNAL_API_MAIN_URL: z.string().url(),
+  DATABASE_HOST: z.string().min(1),
+  DATABASE_PORT: z.coerce.number().positive(),
+  DATABASE_NAME: z.string().min(1),
+  DATABASE_USER: z.string().min(1),
+  DATABASE_PASSWORD: z.string().min(1),
   WEBHOOK_LOCAL_PORT: z.coerce.number().default(7777),
   WEBHOOK_URL: z.string().url(),
   TELEGRAM_BOT_TOKEN: z.string().min(1),
