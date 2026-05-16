@@ -17,7 +17,7 @@ type SetupMessageImageHandlerOptions = {
   respondToAllTextMessages?: boolean;
 };
 
-export async function setupMessageImageHandler(
+export async function setupMessageImageLocalHandler(
   bot: Bot,
   botConfig: { TELEGRAM_BOT_CHATID: string | null },
   options?: SetupMessageImageHandlerOptions,
