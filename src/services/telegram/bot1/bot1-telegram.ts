@@ -1,7 +1,6 @@
 import { Bot } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
-import { setupMessageHandler, setupVoiceHandler } from "./eventos";
-import { setupPhotoHandler } from "./eventos/photo.handler";
+import { setupMessageHandler } from "./eventos";
 
 const BOT1_CONFIG_ID = 6;
 
@@ -15,7 +14,6 @@ async function ensureBot(): Promise<Bot> {
 
     // Configura handlers de eventos
     await setupMessageHandler(bot, botConfig);
-
 
     /*     await setupReplyWithPhotoWebHandler(bot, botConfig, {
       respondToAllTextMessages: true,
