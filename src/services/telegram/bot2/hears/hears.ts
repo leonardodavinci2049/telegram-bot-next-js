@@ -1,4 +1,4 @@
-import { Bot } from "grammy";
+import type { Bot } from "grammy";
 
 export async function setupHearsHandler(bot: Bot): Promise<void> {
   // só responde no chat se o texto for exatamente "pizza"

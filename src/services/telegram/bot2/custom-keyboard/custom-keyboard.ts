@@ -1,4 +1,4 @@
-import { Bot, Keyboard } from "grammy";
+import { type Bot, Keyboard } from "grammy";
 
 const tecladoCarne = new Keyboard()
   .text("🐷 Porco")
