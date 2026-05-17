@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "src/services/telegram/bot2/inline-buttons/examples.js"
   ],
   "exclude": ["node_modules"]
 }
