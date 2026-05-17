@@ -5,7 +5,10 @@ import { createLogger } from "@/core/logger";
 
 const logger = createLogger("VoiceUpload");
 
-const DOWNLOAD_DIR = join(process.cwd(), "src/services/telegram/bot1/download/voice");
+const DOWNLOAD_DIR = join(
+  process.cwd(),
+  "src/services/telegram/bot1/download/voice",
+);
 
 interface DownloadVoiceResult {
   filePath: string;

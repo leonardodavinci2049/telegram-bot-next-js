@@ -6,7 +6,6 @@ import { getConfigById } from "./config.service";
 
 const logger = createLogger("ConfigCachedService");
 
-const TELEGRAM_BOT_CONFIG_ID = 7;
 const webhookBaseUrlSchema = z
   .string()
   .trim()
@@ -33,15 +32,15 @@ const telegramBotConfigSchema = z.object({
 
 export type TelegramBotDbConfig = z.infer<typeof telegramBotConfigSchema>;
 
-let telegramBotConfigPromise: Promise<TelegramBotDbConfig> | null = null;
+const configCache = new Map<number, Promise<TelegramBotDbConfig>>();
 
-async function loadTelegramBotConfig(): Promise<TelegramBotDbConfig> {
-  const rawConfig = await getConfigById(TELEGRAM_BOT_CONFIG_ID);
+async function loadTelegramBotConfig(
+  configId: number,
+): Promise<TelegramBotDbConfig> {
+  const rawConfig = await getConfigById(configId);
 
   if (!rawConfig) {
-    throw new Error(
-      `Configuração ${TELEGRAM_BOT_CONFIG_ID} não encontrada na tbl_config`,
-    );
+    throw new Error(`Configuração ${configId} não encontrada na tbl_config`);
   }
 
   const parsedConfig = telegramBotConfigSchema.safeParse(rawConfig);
@@ -52,20 +51,29 @@ async function loadTelegramBotConfig(): Promise<TelegramBotDbConfig> {
       parsedConfig.error.flatten(),
     );
     throw new Error(
-      `Configuração ${TELEGRAM_BOT_CONFIG_ID} do Telegram está incompleta ou inválida`,
+      `Configuração ${configId} do Telegram está incompleta ou inválida`,
     );
   }
 
   return parsedConfig.data;
 }
 
-export async function getTelegramBotDbConfig(): Promise<TelegramBotDbConfig> {
-  if (!telegramBotConfigPromise) {
-    telegramBotConfigPromise = loadTelegramBotConfig().catch((error) => {
-      telegramBotConfigPromise = null;
-      throw error;
-    });
+export async function getTelegramBotDbConfig(
+  configId: number,
+): Promise<TelegramBotDbConfig> {
+  if (!configCache.has(configId)) {
+    configCache.set(
+      configId,
+      loadTelegramBotConfig(configId).catch((error) => {
+        configCache.delete(configId);
+        throw error;
+      }),
+    );
   }
 
-  return telegramBotConfigPromise;
+  const cached = configCache.get(configId);
+  if (!cached) {
+    throw new Error(`Cache inexistente para configId ${configId}`);
+  }
+  return cached;
 }

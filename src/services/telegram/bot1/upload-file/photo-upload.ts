@@ -5,7 +5,10 @@ import { createLogger } from "@/core/logger";
 
 const logger = createLogger("PhotoUpload");
 
-const DOWNLOAD_DIR = join(process.cwd(), "src/services/telegram/bot1/download/images");
+const DOWNLOAD_DIR = join(
+  process.cwd(),
+  "src/services/telegram/bot1/download/images",
+);
 
 interface DownloadPhotoResult {
   filePath: string;

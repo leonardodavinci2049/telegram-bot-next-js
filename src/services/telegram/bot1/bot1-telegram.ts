@@ -1,13 +1,15 @@
 import { Bot } from "grammy";
-import { getTelegramBotDbConfig } from "@/services/db/config/config-cached.service";
+import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
 import { setupMessageHandler, setupVoiceHandler } from "./eventos";
 import { setupPhotoHandler } from "./eventos/photo.handler";
+
+const BOT1_CONFIG_ID = 7;
 
 let bot: Bot | null = null;
 
 async function ensureBot(): Promise<Bot> {
   if (!bot) {
-    const botConfig = await getTelegramBotDbConfig();
+    const botConfig = await getTelegramBotDbConfig(BOT1_CONFIG_ID);
 
     bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
 
@@ -30,7 +32,7 @@ async function ensureBot(): Promise<Bot> {
 
 export async function registerWebhook(): Promise<void> {
   const b = await ensureBot();
-  const botConfig = await getTelegramBotDbConfig();
+  const botConfig = await getTelegramBotDbConfig(BOT1_CONFIG_ID);
   const webhookUrl = `${botConfig.WEBHOOK_URL}/api/bot1-telegram/webhook`;
 
   try {
