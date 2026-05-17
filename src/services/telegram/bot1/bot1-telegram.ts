@@ -3,7 +3,7 @@ import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cache
 import { setupMessageHandler, setupVoiceHandler } from "./eventos";
 import { setupPhotoHandler } from "./eventos/photo.handler";
 
-const BOT1_CONFIG_ID = 7;
+const BOT1_CONFIG_ID = 6;
 
 let bot: Bot | null = null;
 
@@ -16,8 +16,6 @@ async function ensureBot(): Promise<Bot> {
     // Configura handlers de eventos
     await setupMessageHandler(bot, botConfig);
 
-    await setupPhotoHandler(bot);
-    await setupVoiceHandler(bot);
 
     /*     await setupReplyWithPhotoWebHandler(bot, botConfig, {
       respondToAllTextMessages: true,
