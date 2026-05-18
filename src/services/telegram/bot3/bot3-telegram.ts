@@ -24,12 +24,12 @@ async function ensureBot(): Promise<Bot> {
 export async function registerWebhook(): Promise<void> {
   const b = await ensureBot();
   const botConfig = await getTelegramBotDbConfig(BOT2_CONFIG_ID);
-  const webhookUrl = `${botConfig.WEBHOOK_URL}/api/bot2-telegram/webhook`;
+  const webhookUrl = `${botConfig.WEBHOOK_URL}/api/bot3-telegram/webhook`;
 
   try {
     await b.api.setWebhook(webhookUrl);
   } catch (error) {
-    console.error("[telegram:bot2] Failed to register webhook:", error);
+    console.error("[telegram:bot3] Failed to register webhook:", error);
     throw error;
   }
 }
