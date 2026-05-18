@@ -13,7 +13,7 @@ export async function register() {
 
   const results = await Promise.allSettled([
     registerBot1Webhook(),
-   // registerBot2Webhook(),
+    // registerBot2Webhook(),
     registerBot3Webhook(),
   ]);
 
