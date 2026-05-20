@@ -1,22 +1,19 @@
-import { Bot } from "grammy";
+import { Bot, Context } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
-import {
-  setupShoppingListsSessionHandler,
-  MyContext,
-} from "./shopping-Lists-session/shopping-Lists-session";
+import { setupGroupShoppingListHandler } from "./group-shopping-list/group-shopping-list";
 
 const BOT2_CONFIG_ID = 8;
 
-let bot: Bot<MyContext> | null = null;
+let bot: Bot<Context> | null = null;
 
-async function ensureBot(): Promise<Bot<MyContext>> {
+async function ensureBot(): Promise<Bot<Context>> {
   if (!bot) {
     const botConfig = await getTelegramBotDbConfig(BOT2_CONFIG_ID);
 
-    bot = new Bot<MyContext>(botConfig.TELEGRAM_BOT_TOKEN);
+    bot = new Bot<Context>(botConfig.TELEGRAM_BOT_TOKEN);
 
     // Configura handlers de eventos
-    await setupShoppingListsSessionHandler(bot);
+    await setupGroupShoppingListHandler(bot);
 
     await bot.init();
   }
