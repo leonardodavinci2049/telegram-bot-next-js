@@ -43,6 +43,16 @@ export async function setupShoppingListsSessionHandler(bot: Bot<MyContext>) {
     // Evita processar comandos como texto comum da lista
     if (text.startsWith("/")) return;
 
+    // O callback_data do Telegram tem limite de 64 bytes.
+    // O prefixo "delete " ocupa 7 bytes, restando 57 para o texto do item.
+    const MAX_ITEM_BYTES = 57;
+    if (Buffer.byteLength(text, "utf8") > MAX_ITEM_BYTES) {
+      await ctx.reply(
+        "⚠️ Ops, o texto enviado não é válido para uma lista de compras. Tente um texto mais curto.",
+      );
+      return;
+    }
+
     ctx.session.lista.push(text);
     await ctx.reply(`${text} adicionado!`, {
       reply_markup: botoes(ctx.session.lista),
