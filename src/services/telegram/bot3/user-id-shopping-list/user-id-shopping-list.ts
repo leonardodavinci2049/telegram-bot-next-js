@@ -1,10 +1,10 @@
 import {
-  Bot,
-  Context,
-  NextFunction,
-  session,
-  SessionFlavor,
+  type Bot,
+  type Context,
   InlineKeyboard,
+  type NextFunction,
+  type SessionFlavor,
+  session,
 } from "grammy";
 
 // ---------------------------------------------------------------------------
@@ -51,15 +51,12 @@ function criarMiddlewareVerificarUsuario(authorizedChatId: string | null) {
       return;
     }
 
-    const fromId =
-      ctx.message?.from?.id ?? ctx.callbackQuery?.from?.id ?? null;
+    const fromId = ctx.message?.from?.id ?? ctx.callbackQuery?.from?.id ?? null;
 
     const currentId = String(fromId ?? "");
 
     if (currentId !== authorizedChatId) {
-      await ctx.reply(
-        "Desculpe, não fui autorizado a conversar com você...",
-      );
+      await ctx.reply("Desculpe, não fui autorizado a conversar com você...");
       return;
     }
 

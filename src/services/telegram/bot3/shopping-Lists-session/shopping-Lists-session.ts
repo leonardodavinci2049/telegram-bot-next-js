@@ -1,4 +1,10 @@
-import { Bot, Context, session, SessionFlavor, InlineKeyboard } from "grammy";
+import {
+  type Bot,
+  type Context,
+  InlineKeyboard,
+  type SessionFlavor,
+  session,
+} from "grammy";
 
 // 1. Definindo a interface com os dados que queremos armazenar na sessão
 interface SessionData {

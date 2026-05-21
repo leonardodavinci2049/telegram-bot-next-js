@@ -2,7 +2,7 @@ import { Bot } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
 import {
   setupUserIdShoppingListHandler,
-  UserIdShoppingListContext,
+  type UserIdShoppingListContext,
 } from "./user-id-shopping-list/user-id-shopping-list";
 
 const BOT2_CONFIG_ID = 8;

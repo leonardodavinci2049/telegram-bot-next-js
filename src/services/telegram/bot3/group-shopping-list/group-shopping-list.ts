@@ -1,4 +1,4 @@
-import { Bot, Context, InlineKeyboard } from "grammy";
+import { type Bot, type Context, InlineKeyboard } from "grammy";
 
 // Armazenamento em memória: chatId -> lista de itens
 // Cada chat (grupo ou conversa) tem sua própria lista independente
