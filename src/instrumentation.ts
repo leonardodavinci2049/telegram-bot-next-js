@@ -1,26 +1,27 @@
 export async function register() {
   if (process.env.NEXT_RUNTIME === "edge") return;
 
-  const [
-    { registerWebhook: registerBot1Webhook },
-    //{ registerWebhook: registerBot2Webhook },
-    { registerWebhook: registerBot3Webhook },
-  ] = await Promise.all([
-    import("@/services/telegram/bot1/bot1-telegram"),
-    //{ import("@/services/telegram/bot2/bot2-telegram"),
-    import("@/services/telegram/bot3/bot3-telegram"),
-  ]);
+  const botWebhookRegistrations = [
+    {
+      name: "bot4",
+      load: () => import("@/services/telegram/bot4/bot4-telegram"),
+    },
+  ];
 
-  const results = await Promise.allSettled([
-    registerBot1Webhook(),
-    // registerBot2Webhook(),
-    registerBot3Webhook(),
-  ]);
+  const webhookModules = await Promise.all(
+    botWebhookRegistrations.map(({ load }) => load()),
+  );
+
+  const results = await Promise.allSettled(
+    webhookModules.map(({ registerWebhook }) => registerWebhook()),
+  );
 
   for (const [index, result] of results.entries()) {
     if (result.status === "rejected") {
+      const botName = botWebhookRegistrations[index]?.name ?? `bot${index + 1}`;
+
       console.error(
-        `[instrumentation] Bot ${index + 1} webhook registration failed:`,
+        `[instrumentation] ${botName} webhook registration failed:`,
         result.reason,
       );
     }

@@ -1,4 +1,4 @@
-import { Bot, InlineKeyboard } from "grammy";
+import { type Bot, InlineKeyboard } from "grammy";
 
 let lista: string[] = [];
 
