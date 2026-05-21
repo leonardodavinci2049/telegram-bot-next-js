@@ -1,42 +1,25 @@
 import { type Bot, InlineKeyboard } from "grammy";
 
-// Usamos um objeto literal com type casting para adicionar atributos como 'style'
-// (recurso a partir do Bot API 9.4), que permite botões coloridos no Telegram.
-const botoes = {
-  inline_keyboard: [
-    [
-      {
-        text: "🔥 Apollyon",
-        url: "https://t.me/seu_link_apollyon",
-        style: "danger",
-      },
-      {
-        text: "💎 Sathariel",
-        url: "https://t.me/seu_link_sathariel",
-        style: "primary",
-      },
-    ],
-    [
-      {
-        text: "®️ Delfos",
-        url: "https://t.me/seu_link_delfos",
-        style: "danger",
-      },
-      {
-        text: "©️ The Olympus",
-        url: "https://t.me/seu_link_olympus",
-        style: "primary",
-      },
-    ],
-    [
-      {
-        text: "🗂 Pasta Completa",
-        url: "https://t.me/seu_link_pasta",
-        style: "success",
-      },
-    ],
-  ],
-} as any;
+const botoes = new InlineKeyboard()
+  .url(
+    { text: "🔥 Apollyon", style: "danger" },
+    "https://t.me/seu_link_apollyon",
+  )
+  .url(
+    { text: "💎 Sathariel", style: "primary" },
+    "https://t.me/seu_link_sathariel",
+  )
+  .row()
+  .url({ text: "®️ Delfos", style: "danger" }, "https://t.me/seu_link_delfos")
+  .url(
+    { text: "©️ The Olympus", style: "primary" },
+    "https://t.me/seu_link_olympus",
+  )
+  .row()
+  .url(
+    { text: "🗂 Pasta Completa", style: "success" },
+    "https://t.me/seu_link_pasta",
+  );
 
 export async function setupPostHandler(bot: Bot): Promise<void> {
   // Responde aos comandos /start ou /post com a postagem

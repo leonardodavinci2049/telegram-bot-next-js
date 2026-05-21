@@ -38,7 +38,7 @@ export async function setupHearsHandler(bot: Bot): Promise<void> {
     const date = new Date(Number(year), Number(month) - 1, Number(day));
 
     // Validar se a data é válida
-    if (isNaN(date.getTime())) {
+    if (Number.isNaN(date.getTime())) {
       await ctx.reply("Data inválida fornecida.");
       return;
     }
