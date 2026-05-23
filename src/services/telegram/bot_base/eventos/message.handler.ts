@@ -1,5 +1,5 @@
 import type { Bot } from "grammy";
-import { CUSTOMER_SERVICE_CHAT_START_MESSAGE } from "../messages/constants-mensages";
+import { HTML_FORMATTED_MESSAGE2 } from "../messages/constants-mensages";
 
 const DEFAULT_TELEGRAM_USER_NAME = "usuario";
 
@@ -29,9 +29,7 @@ export async function setupMessageHandler(
         return;
       }
 
-      await ctx.reply(CUSTOMER_SERVICE_CHAT_START_MESSAGE, {
-        parse_mode: "HTML",
-      });
+      await ctx.reply(HTML_FORMATTED_MESSAGE2, { parse_mode: "HTML" });
       //console.log(`[telegram] Response sent to chat ${ctx.chat.id}`);
       /* 
       await ctx.reply(

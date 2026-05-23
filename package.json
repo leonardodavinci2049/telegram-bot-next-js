@@ -10,6 +10,7 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@grammyjs/conversations": "^2.1.1",
     "add": "^2.0.6",
     "axios": "^1.16.1",
     "class-variance-authority": "^0.7.1",
