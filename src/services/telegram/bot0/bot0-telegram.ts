@@ -1,24 +1,30 @@
-import type { ConversationFlavor } from "@grammyjs/conversations";
-import { Bot, type Context } from "grammy";
+import { Bot } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
-import { setupSceneHandler } from "./scene/scene";
+import { setupMessageHandler } from "./eventos/message.handler";
 
-type BotContext = ConversationFlavor<Context>;
+
 
 const BOT5_CONFIG_ID = 10;
 
-let bot: Bot<BotContext> | null = null;
+let bot: Bot | null = null;
 
-async function ensureBot(): Promise<Bot<BotContext>> {
-  if (!bot) {
-    const botConfig = await getTelegramBotDbConfig(BOT5_CONFIG_ID);
+async function ensureBot(): Promise<Bot> {
 
-    bot = new Bot<BotContext>(botConfig.TELEGRAM_BOT_TOKEN);
-
-    await setupSceneHandler(bot);
-
-    await bot.init();
-  }
+   if (!bot) {
+     const botConfig = await getTelegramBotDbConfig(BOT5_CONFIG_ID);
+ 
+     bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
+ 
+     // Configura handlers de eventos
+     await setupMessageHandler(bot, botConfig);
+ 
+     /*     await setupReplyWithPhotoWebHandler(bot, botConfig, {
+       respondToAllTextMessages: true,
+     }); */
+ 
+     await bot.init();
+     // console.log(`[telegram] Bot initialized: @${bot.botInfo.username}`);
+   }
 
   return bot;
 }
