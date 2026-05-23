@@ -1,18 +1,21 @@
-import { Bot } from "grammy";
+import type { ConversationFlavor } from "@grammyjs/conversations";
+import { Bot, type Context } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
-import { setupMessageHandler } from "./eventos/message.handler";
+import { setupSceneHandler } from "./scene/scene";
+
+type BotContext = ConversationFlavor<Context>;
 
 const BOT5_CONFIG_ID = 10;
 
-let bot: Bot | null = null;
+let bot: Bot<BotContext> | null = null;
 
-async function ensureBot(): Promise<Bot> {
+async function ensureBot(): Promise<Bot<BotContext>> {
   if (!bot) {
     const botConfig = await getTelegramBotDbConfig(BOT5_CONFIG_ID);
 
-    bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
+    bot = new Bot<BotContext>(botConfig.TELEGRAM_BOT_TOKEN);
 
-    await setupMessageHandler(bot, botConfig);
+    await setupSceneHandler(bot);
 
     await bot.init();
   }

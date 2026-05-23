@@ -3,7 +3,7 @@ import { handleUpdate } from "@/services/telegram/bot5/bot5-telegram";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    console.log("[webhook:bot5] Update received");
+   // console.log("[webhook:bot5] Update received");
 
     await handleUpdate(body);
 

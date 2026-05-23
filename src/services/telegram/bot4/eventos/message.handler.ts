@@ -29,7 +29,9 @@ export async function setupMessageHandler(
         return;
       }
 
-      await ctx.reply(CUSTOMER_SERVICE_CHAT_START_MESSAGE, { parse_mode: "HTML" });
+      await ctx.reply(CUSTOMER_SERVICE_CHAT_START_MESSAGE, {
+        parse_mode: "HTML",
+      });
       //console.log(`[telegram] Response sent to chat ${ctx.chat.id}`);
       /* 
       await ctx.reply(
