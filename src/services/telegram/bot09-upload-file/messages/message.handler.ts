@@ -1,44 +1,16 @@
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import { type Bot, InputFile } from "grammy";
-import { HTML_FORMATTED_MESSAGE2 } from "../../bot99/messages/constants-mensages";
-
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const DEFAULT_USER_IMAGE = new InputFile(
-  readFileSync(join(__dirname, "../images/default-user-image.jpeg")),
-  "default-user-image.jpeg",
-);
-const IMAGE_MESSAGE_COMMANDS = new Set(["/imagem", "imagem"]);
+import type { Bot } from "grammy";
+import { HTML_FORMATTED_MESSAGE2 } from "../messages/constants-mensages";
 
 const DEFAULT_TELEGRAM_USER_NAME = "usuario";
 
-type SetupReplyWithPhotoHandlerOptions = {
-  respondToAllTextMessages?: boolean;
-};
-
-export async function setupReplyWithPhotoLocalHandler(
+export async function setupMessageHandler(
   bot: Bot,
   botConfig: { TELEGRAM_BOT_CHATID: string | null },
-  options?: SetupReplyWithPhotoHandlerOptions,
 ): Promise<void> {
   bot.on("message", async (ctx, next) => {
     try {
       // Se não for mensagem de texto, passa para o próximo handler
       if (!ctx.message.text) {
-        await next();
-        return;
-      }
-
-      const messageText = ctx.message.text.trim().toLowerCase();
-      const shouldRespondToAllTextMessages =
-        options?.respondToAllTextMessages ?? false;
-
-      if (
-        !shouldRespondToAllTextMessages &&
-        !IMAGE_MESSAGE_COMMANDS.has(messageText)
-      ) {
         await next();
         return;
       }
@@ -57,17 +29,15 @@ export async function setupReplyWithPhotoLocalHandler(
         return;
       }
 
-      await ctx.replyWithPhoto(DEFAULT_USER_IMAGE, {
-        caption: HTML_FORMATTED_MESSAGE2,
-        parse_mode: "HTML",
-      });
-
+    //  await ctx.reply(HTML_FORMATTED_MESSAGE2, { parse_mode: "HTML" });
       //console.log(`[telegram] Response sent to chat ${ctx.chat.id}`);
-      /* 
+    
       await ctx.reply(
         `seja bem ${userFirstName}, em breve teremos novidades, fique atento! 🚀`,
       );
- */
+
+
+      await next();
     } catch (error) {
       console.error(
         `[telegram] Failed to send response to chat ${ctx.chat.id}:`,
