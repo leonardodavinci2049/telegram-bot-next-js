@@ -1,4 +1,4 @@
-import { handleUpdate } from "@/services/telegram/bot17-post/bot-telegram";
+import { handleUpdate } from "@/services/telegram/bot02-messages/bot-telegram";
 
 export async function POST(request: Request) {
   try {
