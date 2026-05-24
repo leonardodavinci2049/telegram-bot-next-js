@@ -2,29 +2,23 @@ import { Bot } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
 import { setupMessageHandler } from "./eventos/message.handler";
 
-
-
 const BOT5_CONFIG_ID = 10;
 
 let bot: Bot | null = null;
 
 async function ensureBot(): Promise<Bot> {
+  if (!bot) {
+    const botConfig = await getTelegramBotDbConfig(BOT5_CONFIG_ID);
 
-   if (!bot) {
-     const botConfig = await getTelegramBotDbConfig(BOT5_CONFIG_ID);
- 
-     bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
- 
-     // Configura handlers de eventos
-     await setupMessageHandler(bot, botConfig);
- 
-     /*     await setupReplyWithPhotoWebHandler(bot, botConfig, {
-       respondToAllTextMessages: true,
-     }); */
- 
-     await bot.init();
-     // console.log(`[telegram] Bot initialized: @${bot.botInfo.username}`);
-   }
+    bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
+
+    // Configura handlers de eventos
+    await setupMessageHandler(bot, botConfig);
+
+    await bot.init();
+
+    console.log(`[telegram] Bot initialized: @${bot.botInfo.username}`);
+  }
 
   return bot;
 }

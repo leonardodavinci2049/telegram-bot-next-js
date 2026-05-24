@@ -5,19 +5,29 @@ import { setupSceneHandler } from "./scene/scene";
 
 type BotContext = ConversationFlavor<Context>;
 
-const BOT5_CONFIG_ID = 10;
+const BOT_CONFIG_ID = 10;
 
 let bot: Bot<BotContext> | null = null;
 
 async function ensureBot(): Promise<Bot<BotContext>> {
   if (!bot) {
-    const botConfig = await getTelegramBotDbConfig(BOT5_CONFIG_ID);
+    const botConfig = await getTelegramBotDbConfig(BOT_CONFIG_ID);
 
     bot = new Bot<BotContext>(botConfig.TELEGRAM_BOT_TOKEN);
 
     await setupSceneHandler(bot);
 
-    await bot.init();
+    try {
+      await bot.init();
+
+      console.log(`[telegram] Bot initialized: @${bot.botInfo.username}`);
+    } catch (error) {
+      console.error(
+        `[telegram:bot] Failed to initialize bot from config ${BOT_CONFIG_ID}. Check TELEGRAM_BOT_TOKEN.`,
+        error,
+      );
+      throw error;
+    }
   }
 
   return bot;
@@ -25,7 +35,7 @@ async function ensureBot(): Promise<Bot<BotContext>> {
 
 export async function registerWebhook(): Promise<void> {
   const b = await ensureBot();
-  const botConfig = await getTelegramBotDbConfig(BOT5_CONFIG_ID);
+  const botConfig = await getTelegramBotDbConfig(BOT_CONFIG_ID);
   const webhookUrl = `${botConfig.WEBHOOK_URL}/api/bot-telegram/webhook`;
 
   try {
