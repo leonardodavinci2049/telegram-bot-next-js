@@ -5,7 +5,7 @@ import {
   type UserIdShoppingListContext,
 } from "./user-id-shopping-list/user-id-shopping-list";
 
-const BOT_CONFIG_ID = 8;
+const BOT_CONFIG_ID = 10;
 
 let bot: Bot<UserIdShoppingListContext> | null = null;
 
