@@ -5,13 +5,13 @@ import {
   type UserIdShoppingListContext,
 } from "./user-id-shopping-list/user-id-shopping-list";
 
-const BOT2_CONFIG_ID = 8;
+const BOT_CONFIG_ID = 8;
 
 let bot: Bot<UserIdShoppingListContext> | null = null;
 
 async function ensureBot(): Promise<Bot<UserIdShoppingListContext>> {
   if (!bot) {
-    const botConfig = await getTelegramBotDbConfig(BOT2_CONFIG_ID);
+    const botConfig = await getTelegramBotDbConfig(BOT_CONFIG_ID);
 
     bot = new Bot<UserIdShoppingListContext>(botConfig.TELEGRAM_BOT_TOKEN);
 
@@ -20,7 +20,17 @@ async function ensureBot(): Promise<Bot<UserIdShoppingListContext>> {
       TELEGRAM_BOT_CHATID: botConfig.TELEGRAM_BOT_CHATID,
     });
 
-    await bot.init();
+    try {
+      await bot.init();
+
+      console.log(`[telegram] Bot initialized: @${bot.botInfo.username}`);
+    } catch (error) {
+      console.error(
+        `[telegram:bot] Failed to initialize bot from config ${BOT_CONFIG_ID}. Check TELEGRAM_BOT_TOKEN.`,
+        error,
+      );
+      throw error;
+    }
   }
 
   return bot;
@@ -28,13 +38,13 @@ async function ensureBot(): Promise<Bot<UserIdShoppingListContext>> {
 
 export async function registerWebhook(): Promise<void> {
   const b = await ensureBot();
-  const botConfig = await getTelegramBotDbConfig(BOT2_CONFIG_ID);
-  const webhookUrl = `${botConfig.WEBHOOK_URL}/api/bot3-telegram/webhook`;
+  const botConfig = await getTelegramBotDbConfig(BOT_CONFIG_ID);
+  const webhookUrl = `${botConfig.WEBHOOK_URL}/api/bot-telegram/webhook`;
 
   try {
     await b.api.setWebhook(webhookUrl);
   } catch (error) {
-    console.error("[telegram:bot3] Failed to register webhook:", error);
+    console.error("[telegram:bot] Failed to register webhook:", error);
     throw error;
   }
 }
