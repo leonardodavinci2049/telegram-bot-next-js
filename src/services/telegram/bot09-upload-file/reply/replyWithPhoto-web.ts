@@ -1,6 +1,7 @@
 import type { Bot } from "grammy";
 import { HTML_FORMATTED_MESSAGE2 } from "../messages/constants-mensages";
 
+
 const IMAGE_WEB_URL = "https://picsum.photos/800/600";
 const IMAGE_MESSAGE_COMMANDS = new Set(["/imagemweb", "imagemweb"]);
 
