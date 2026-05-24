@@ -1,19 +1,22 @@
-import { Bot } from "grammy";
+import type { ConversationFlavor } from "@grammyjs/conversations";
+import { Bot, type Context } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
-import { setupMessageHandler } from "./eventos/message.handler";
+import { setupWizardHandler } from "./wizard/wizard";
+
+type WizardContext = Context & ConversationFlavor<Context>;
 
 const BOT_CONFIG_ID = 10;
 
-let bot: Bot | null = null;
+let bot: Bot<WizardContext> | null = null;
 
-async function ensureBot(): Promise<Bot> {
+async function ensureBot(): Promise<Bot<WizardContext>> {
   if (!bot) {
     const botConfig = await getTelegramBotDbConfig(BOT_CONFIG_ID);
 
-    bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
+    bot = new Bot<WizardContext>(botConfig.TELEGRAM_BOT_TOKEN);
 
     // Configura handlers de eventos
-    await setupMessageHandler(bot, botConfig);
+    await setupWizardHandler(bot, botConfig);
 
     try {
       await bot.init();
@@ -45,5 +48,7 @@ export async function registerWebhook(): Promise<void> {
 
 export async function handleUpdate(body: unknown): Promise<void> {
   const b = await ensureBot();
-  await b.handleUpdate(body as Parameters<Bot["handleUpdate"]>[0]);
+  await b.handleUpdate(
+    body as Parameters<Bot<WizardContext>["handleUpdate"]>[0],
+  );
 }
