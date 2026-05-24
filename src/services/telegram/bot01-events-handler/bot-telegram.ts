@@ -1,6 +1,6 @@
 import { Bot } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
-import { setupStickerHandler } from "./sticker-handler/sticker.handler";
+import { setupMessageHandler } from "./events-handler/message.handler";
 
 
 
@@ -15,7 +15,7 @@ async function ensureBot(): Promise<Bot> {
     bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
 
    // Configura handlers de eventos
-    await setupStickerHandler(bot);
+    await setupMessageHandler(bot, botConfig);
 
     try {
       await bot.init();
