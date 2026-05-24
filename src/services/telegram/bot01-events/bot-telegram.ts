@@ -1,6 +1,9 @@
 import { Bot } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
-import { setupInlineButtonsHandler } from "./inline-buttons/inline-buttons";
+import { setupMessageHandler } from "./events/message.handler";
+
+
+
 
 const BOT_CONFIG_ID = 10;
 
@@ -12,7 +15,9 @@ async function ensureBot(): Promise<Bot> {
 
     bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
 
-    await setupInlineButtonsHandler(bot);
+   // Configura handlers de eventos
+    await setupMessageHandler(bot, botConfig);
+
     try {
       await bot.init();
 
@@ -36,7 +41,7 @@ export async function registerWebhook(): Promise<void> {
   try {
     await b.api.setWebhook(webhookUrl);
   } catch (error) {
-    console.error("[telegram:bot Failed to register webhook:", error);
+    console.error("[telegram:bot2] Failed to register webhook:", error);
     throw error;
   }
 }
