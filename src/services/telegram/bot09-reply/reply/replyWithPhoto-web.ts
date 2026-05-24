@@ -1,16 +1,35 @@
 import type { Bot } from "grammy";
 import { HTML_FORMATTED_MESSAGE2 } from "../messages/constants-mensages";
 
+const IMAGE_WEB_URL = "https://picsum.photos/800/600";
+const IMAGE_MESSAGE_COMMANDS = new Set(["/imagemweb", "imagemweb"]);
+
 const DEFAULT_TELEGRAM_USER_NAME = "usuario";
 
-export async function setupMessageHandler(
+type SetupReplyWithPhotoHandlerOptions = {
+  respondToAllTextMessages?: boolean;
+};
+
+export async function setupReplyWithPhotoWebHandler(
   bot: Bot,
   botConfig: { TELEGRAM_BOT_CHATID: string | null },
+  options?: SetupReplyWithPhotoHandlerOptions,
 ): Promise<void> {
   bot.on("message", async (ctx, next) => {
     try {
-      // Se não for mensagem de texto, passa para o próximo handler
       if (!ctx.message.text) {
+        await next();
+        return;
+      }
+
+      const messageText = ctx.message.text.trim().toLowerCase();
+      const shouldRespondToAllTextMessages =
+        options?.respondToAllTextMessages ?? false;
+
+      if (
+        !shouldRespondToAllTextMessages &&
+        !IMAGE_MESSAGE_COMMANDS.has(messageText)
+      ) {
         await next();
         return;
       }
@@ -28,16 +47,17 @@ export async function setupMessageHandler(
         await ctx.reply("Sinto muito, mas eu so falo com o meu mestre");
         return;
       }
+      // Para imagem publica na web, prefira URL direta.
+      // Use InputFile quando a origem for arquivo local, buffer ou stream.
+      // await ctx.replyWithPhoto(new InputFile(new URL(IMAGE_WEB_URL)), {
+      //   caption: HTML_FORMATTED_MESSAGE2,
+      //   parse_mode: "HTML",
+      // });
 
-    //  await ctx.reply(HTML_FORMATTED_MESSAGE2, { parse_mode: "HTML" });
-      //console.log(`[telegram] Response sent to chat ${ctx.chat.id}`);
-    
-      await ctx.reply(
-        `seja bem ${userFirstName}, em breve teremos novidades, fique atento! 🚀`,
-      );
-
-
-      await next();
+      await ctx.replyWithPhoto(IMAGE_WEB_URL, {
+        caption: HTML_FORMATTED_MESSAGE2,
+        parse_mode: "HTML",
+      });
     } catch (error) {
       console.error(
         `[telegram] Failed to send response to chat ${ctx.chat.id}:`,

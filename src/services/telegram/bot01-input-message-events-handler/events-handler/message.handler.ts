@@ -1,6 +1,6 @@
 import type { Bot } from "grammy";
-import { downloadVoice } from "./download-Voice";
 import { downloadPhoto } from "./download-photo";
+import { downloadVoice } from "./download-Voice";
 
 const DEFAULT_TELEGRAM_USER_NAME = "usuario";
 const UNAUTHORIZED_MESSAGE = "Sinto muito, mas eu so falo com o meu mestre";
@@ -66,7 +66,6 @@ export async function setupMessageHandler(
     }
   });
 
-
   bot.on("message:contact", async (ctx) => {
     try {
       const contact = ctx.message.contact;
@@ -90,36 +89,36 @@ export async function setupMessageHandler(
     }
   });
 
-// Listen for voice messages
-    bot.on(":voice", async (ctx) => {
-      try {
-        const voice = ctx.msg.voice;
-        const fileId = voice.file_id;
-        const duration = voice.duration;
-        const mimeType = voice.mime_type || "audio/ogg";
-  
-        console.log(
-          `[telegram] Received voice message from chat ${ctx.chat.id}: Duration ${duration}s, File ID: ${fileId}`,
+  // Listen for voice messages
+  bot.on(":voice", async (ctx) => {
+    try {
+      const voice = ctx.msg.voice;
+      const fileId = voice.file_id;
+      const duration = voice.duration;
+      const mimeType = voice.mime_type || "audio/ogg";
+
+      console.log(
+        `[telegram] Received voice message from chat ${ctx.chat.id}: Duration ${duration}s, File ID: ${fileId}`,
+      );
+
+      const result = await downloadVoice(bot.token, fileId);
+
+      if (result) {
+        await ctx.reply(
+          `Recebi sua mensagem de voz! 🎤\n\nDuração: ${duration} segundos\nTipo: ${mimeType}\nID do arquivo: ${fileId}\nArquivo salvo: ${result.fileName}`,
         );
-  
-        const result = await downloadVoice(bot.token, fileId);
-  
-        if (result) {
-          await ctx.reply(
-            `Recebi sua mensagem de voz! 🎤\n\nDuração: ${duration} segundos\nTipo: ${mimeType}\nID do arquivo: ${fileId}\nArquivo salvo: ${result.fileName}`,
-          );
-        } else {
-          await ctx.reply(
-            `Recebi sua mensagem de voz! 🎤\n\nDuração: ${duration} segundos\nTipo: ${mimeType}\nID do arquivo: ${fileId}\n⚠️ Não foi possível salvar o arquivo.`,
-          );
-        }
-      } catch (error) {
-        console.error(
-          `[telegram] Failed to process voice message from chat ${ctx.chat.id}:`,
-          error,
+      } else {
+        await ctx.reply(
+          `Recebi sua mensagem de voz! 🎤\n\nDuração: ${duration} segundos\nTipo: ${mimeType}\nID do arquivo: ${fileId}\n⚠️ Não foi possível salvar o arquivo.`,
         );
       }
-    });
+    } catch (error) {
+      console.error(
+        `[telegram] Failed to process voice message from chat ${ctx.chat.id}:`,
+        error,
+      );
+    }
+  });
 
   bot.on(":photo", async (ctx) => {
     try {
@@ -185,5 +184,4 @@ export async function setupMessageHandler(
       );
     }
   });
-
 }
