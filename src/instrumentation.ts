@@ -4,7 +4,7 @@ export async function register() {
   const botWebhookRegistrations = [
     {
       name: "bot-telegram",
-      load: () => import("@/services/telegram/bot99/bot-telegram"),
+      load: () => import("@/services/telegram/bot17-post/bot-telegram"),
     },
   ];
 
