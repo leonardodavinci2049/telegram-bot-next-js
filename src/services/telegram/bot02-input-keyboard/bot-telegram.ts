@@ -2,7 +2,6 @@ import { Bot } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
 import { setupCustomKeyboardHandler } from "./keyboard/custom-keyboard";
 
-
 const BOT_CONFIG_ID = 10;
 
 let bot: Bot | null = null;
