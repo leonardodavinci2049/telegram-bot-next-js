@@ -1,6 +1,7 @@
 import { Bot } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
-import { setupInlineButtonsHandler } from "./inline-buttons/inline-buttons";
+import { setupInlineKeyboardHandler } from "./Inline-keyboards/Inline-keyboards";
+
 
 const BOT_CONFIG_ID = 10;
 
@@ -12,7 +13,7 @@ async function ensureBot(): Promise<Bot> {
 
     bot = new Bot(botConfig.TELEGRAM_BOT_TOKEN);
 
-    await setupInlineButtonsHandler(bot);
+    await setupInlineKeyboardHandler(bot);
     try {
       await bot.init();
 
