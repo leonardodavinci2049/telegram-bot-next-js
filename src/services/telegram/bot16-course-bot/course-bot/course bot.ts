@@ -19,6 +19,12 @@ const localizacao = new Keyboard()
   .oneTime();
 
 export async function setupCourseBot(bot: Bot): Promise<void> {
+  bot.command("remover", async (ctx) => {
+    await ctx.reply("Teclado removido com sucesso!", {
+      reply_markup: { remove_keyboard: true },
+    });
+  });
+
   bot.command("start", async (ctx) => {
     const nome = ctx.from?.first_name || "Usuário";
     await ctx.reply(`*Olá, ${nome}!*\nEu sou o ChatBot do curso`, {
