@@ -2,7 +2,7 @@ import { Bot } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
 import { setupMessageHandler } from "./messages/message.handler";
 
-const BOT5_CONFIG_ID = 11;
+const BOT5_CONFIG_ID = 10;
 
 let bot: Bot | null = null;
 
