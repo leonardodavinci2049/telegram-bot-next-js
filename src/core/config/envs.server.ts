@@ -13,6 +13,11 @@ const serverEnvsSchema = z.object({
   DATABASE_USER: z.string().min(1),
   DATABASE_PASSWORD: z.string().min(1),
   TELEGRAM_MESSAGE_RESPONSE: z.string().min(1),
+  TELEGRAM_BOT_CHANNEL_ID: z
+    .string()
+    .trim()
+    .min(1)
+    .default("@Celulares_Smartphone"),
   API_KEY: z.string().min(1),
 });
 

@@ -1,5 +1,7 @@
 import { Bot } from "grammy";
+import { serverEnvs } from "@/core/config/envs.server";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
+import { sendTextToChannel } from "./channels/channel-message.service";
 import { setupMessageHandler } from "./eventos/message.handler";
 
 const BOT5_CONFIG_ID = 11;
@@ -34,6 +36,21 @@ export async function registerWebhook(): Promise<void> {
     console.error("[telegram:bot] Failed to register webhook:", error);
     throw error;
   }
+}
+
+export async function sendHelloToConfiguredChannel(): Promise<void> {
+  await sendTextToConfiguredChannel("ola");
+}
+
+export async function sendTextToConfiguredChannel(text: string): Promise<void> {
+  const b = await ensureBot();
+  const channelChatId = serverEnvs.TELEGRAM_BOT_CHANNEL_ID;
+
+  if (!channelChatId) {
+    throw new Error("Canal do Telegram não configurado");
+  }
+
+  await sendTextToChannel(b, channelChatId, text);
 }
 
 export async function handleUpdate(body: unknown): Promise<void> {
