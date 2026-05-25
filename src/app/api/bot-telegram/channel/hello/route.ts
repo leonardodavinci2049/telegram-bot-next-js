@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { serverEnvs } from "@/core/config/envs.server";
-import { sendTextToConfiguredChannel } from "@/services/telegram/bot99/bot-telegram";
+import { sendTextToConfiguredChannel } from "@/services/telegram/bot18-automation1/bot-telegram";
 
 export async function POST(request: Request) {
   const adminSecret = request.headers.get("x-bot-admin-secret");

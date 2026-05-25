@@ -1,20 +1,12 @@
-import { TelegramChannelMessageForm } from "@/components/telegram-channel-message-form";
-
 export default function HomePage() {
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-10">
-      <section className="w-full max-w-xl">
-        <div className="mb-6 text-center">
-          <p className="text-sm font-medium text-muted-foreground">
-            Canal Telegram
-          </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-normal text-foreground">
-            Publicador de mensagens
-          </h1>
+    return (
+        <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 dark:bg-gray-900">
+            <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200">
+                Welcome to Next.js with Better-Auth!
+            </h1>
+            <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+                This is a simple starter template.
+            </p>
         </div>
-
-        <TelegramChannelMessageForm />
-      </section>
-    </main>
-  );
+    );
 }

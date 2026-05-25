@@ -6,7 +6,7 @@ import { useFormStatus } from "react-dom";
 import {
   type SendTelegramMessageState,
   sendTelegramMessageAction,
-} from "@/app/send-telegram-message.action";
+} from "@/app/post/_components/send-telegram-message.action";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
