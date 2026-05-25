@@ -14,7 +14,7 @@ const botoes = new InlineKeyboard()
   .text("🔃 Zerar", "reset")
   .text("Resultado", "result");
 
-export async function setupInlineButtonsHandler(bot: Bot): Promise<void> {
+export async function setupInlineKeyboardHandler(bot: Bot): Promise<void> {
   bot.command("start", async (ctx) => {
     const nome = ctx.from?.first_name || "Usuário";
     await ctx.reply(`Seja bem vindo, ${nome}!`);
