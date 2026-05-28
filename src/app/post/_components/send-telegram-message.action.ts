@@ -1,6 +1,6 @@
 "use server";
 
-import { sendTextToConfiguredChannel } from "@/services/telegram/bot25-automation1/bot-telegram";
+import { sendTextToConfiguredChannel } from "@/services/telegram/bot33-automation1/bot-telegram";
 
 export type SendTelegramMessageState = {
   status: "idle" | "success" | "error";
