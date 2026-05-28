@@ -1,7 +1,7 @@
 import type { ConversationFlavor } from "@grammyjs/conversations";
 import { Bot, type Context } from "grammy";
 import { getTelegramBotDbConfig } from "@/services/db/load-settings/config-cached.service";
-import { setupSceneHandler } from "./scene/scene";
+import { setupSceneHandler } from "./stage-scene/scene";
 
 type BotContext = ConversationFlavor<Context>;
 
