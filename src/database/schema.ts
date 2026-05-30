@@ -453,6 +453,15 @@ export type TblSystemConfiguration = {
   UPDATEDAT?: Date | null;
 };
 
+export type TblTask = {
+  id: number;
+  title?: string | null;
+  notes?: string | null;
+  status?: string | null;
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
+};
+
 export type TblTelegramChat = {
   ID: number;
   UUID?: string | null;
