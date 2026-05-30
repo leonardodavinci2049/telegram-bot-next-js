@@ -1,11 +1,12 @@
 export const TASK_FIND_ALL_SQL = `
   SELECT
     id,
-    title,
-    notes,
+    descricao,
+    observacao,
     status,
-    createdAt,
-    updatedAt
+    dt_conclusao,
+    dt_previsao,
+    createdAt
   FROM tbl_task
   ORDER BY id DESC
   LIMIT 100

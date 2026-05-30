@@ -1,11 +1,12 @@
 export const TASK_FIND_BY_STATUS_SQL = `
   SELECT
     id,
-    title,
-    notes,
+    descricao,
+    observacao,
     status,
-    createdAt,
-    updatedAt
+    dt_conclusao,
+    dt_previsao,
+    createdAt
   FROM tbl_task
   WHERE status = ?
   ORDER BY id DESC

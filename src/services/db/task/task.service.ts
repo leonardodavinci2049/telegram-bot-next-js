@@ -10,24 +10,30 @@ import { TASK_UPDATE_BY_ID_SQL } from "./query/task-update_by_id";
 import type { TaskRow } from "./types/task-find.type";
 
 type TaskCreateInput = {
-  title?: string | null;
-  notes?: string | null;
+  descricao?: string | null;
+  observacao?: string | null;
   status?: string | null;
+  dt_conclusao?: Date | null;
+  dt_previsao?: Date | null;
 };
 
 type TaskUpdateInput = {
-  title?: string | null;
-  notes?: string | null;
+  descricao?: string | null;
+  observacao?: string | null;
   status?: string | null;
+  dt_conclusao?: Date | null;
+  dt_previsao?: Date | null;
 };
 
 export async function createTask(
   input: TaskCreateInput,
 ): Promise<number | null> {
   const result = await dbService.modifyExecute(TASK_CREATE_SQL, [
-    input.title ?? null,
-    input.notes ?? null,
+    input.descricao ?? null,
+    input.observacao ?? null,
     input.status ?? null,
+    input.dt_conclusao ?? null,
+    input.dt_previsao ?? null,
   ]);
 
   return result.insertId > 0 ? result.insertId : null;
@@ -54,9 +60,11 @@ export async function updateTaskById(
   input: TaskUpdateInput,
 ): Promise<boolean> {
   const result = await dbService.modifyExecute(TASK_UPDATE_BY_ID_SQL, [
-    input.title ?? null,
-    input.notes ?? null,
+    input.descricao ?? null,
+    input.observacao ?? null,
     input.status ?? null,
+    input.dt_conclusao ?? null,
+    input.dt_previsao ?? null,
     id,
   ]);
 

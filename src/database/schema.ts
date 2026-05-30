@@ -455,11 +455,12 @@ export type TblSystemConfiguration = {
 
 export type TblTask = {
   id: number;
-  title?: string | null;
-  notes?: string | null;
+  descricao?: string | null;
+  observacao?: string | null;
   status?: string | null;
+  dt_conclusao?: Date | null;
+  dt_previsao?: Date | null;
   createdAt?: Date | null;
-  updatedAt?: Date | null;
 };
 
 export type TblTelegramChat = {
